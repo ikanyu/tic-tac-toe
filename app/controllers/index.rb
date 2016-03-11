@@ -1,28 +1,26 @@
 get '/' do
   # Look in app/views/index.erb
-  # byebug
   if !Game.last.nil?
     @game = Game.last
     @board = @game.board
   end
-  if session[:name] == @game.turn
-    @status = "play"
-  else
-    @status = "waiting"
+  unless session[:name].nil?
+    if session[:name] == @game.turn
+      @status = "play"
+    else
+      @status = "waiting"
+    end
   end
-  # byebug
   erb :index
 end
 
 post '/' do
-  # byebug
   game = Game.create
   player1 = game.users.create(name: "A")
   player2 = game.users.create(name: "B")
   game.turn = player1.name
   game.save
   # @board = game.board
-  # erb :ind
   redirect to '/'
 end
 
@@ -32,10 +30,8 @@ get '/selected' do
   column = position[7]
   game = Game.find(params[:game_id])
   turn = game.turn
-  # byebug
   game.board[row.to_i][column.to_i] = turn
   game.turn = game.users.where('name != ?', turn).first.name
-  # byebug
   game.save
 
 end

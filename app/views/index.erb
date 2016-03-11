@@ -1,5 +1,5 @@
 
-<div class="container" id="game" data-game-id="<%= @game.id%>">
+<div class="container" id="game" data-game-id="<%= @game.id if !@game.nil? %>">
   <h1>Welcome to Sinatra!</h1>
   <p>Hello, Tic Tac Toe!</p>
 
